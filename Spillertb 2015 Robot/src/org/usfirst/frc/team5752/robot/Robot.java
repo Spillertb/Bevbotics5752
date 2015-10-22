@@ -37,6 +37,8 @@ public class Robot extends IterativeRobot {
 	
 	final int WINCH_MOTOR = 5;
 	
+	final int XBOX_INPUT = 1;
+	
 	final int BUTTON_A = 1;
 	final int BUTTON_B = 2;
 	final int BUTTON_X = 3;
@@ -48,8 +50,6 @@ public class Robot extends IterativeRobot {
 	final int LEFT_TRIGGER = 2;
 	final int RIGHT_TRIGGER = 3;
 	
-	
-	
 	final int LIMIT_SWITCH_IN = 2;
 	final int LIMIT_SWITCH_OUT = 1;
 	
@@ -60,6 +60,7 @@ public class Robot extends IterativeRobot {
 	double RIGHT_POWER;
 	
 	//use to cap speed at a % speed -> Should be 0.0 to 1.0
+	//not final
 	double ACCEL_RATE = 1;
 	//use to decelerate & accelerate robot so it wont flip
 	final double ACCEL_COEFFICIENT = 0.025;
@@ -71,18 +72,19 @@ public class Robot extends IterativeRobot {
 	
 	AnalogInput upLimitIn = new AnalogInput(LIMIT_SWITCH_IN);
 	AnalogInput upLimitOut = new AnalogInput(LIMIT_SWITCH_OUT);
+	
 	Talon leftMotor1 = new Talon(MOTOR_LEFT_1);
 	Talon leftMotor2 = new Talon(MOTOR_LEFT_2);
 	Talon rightMotor1 = new Talon(MOTOR_RIGHT_1);
 	Talon rightMotor2 = new Talon(MOTOR_RIGHT_2);
 	
-	TalonSRX winchMotor = new TalonSRX(WINCH_MOTOR);
-	//Talon winchMotor = new Talon(WINCH_MOTOR);
+	TalonSRX winchMotor = new TalonSRX(WINCH_MOTOR); // TalonSRX = newer model of regular Talon, defined differently
+//	Talon winchMotor = new Talon(WINCH_MOTOR);
 	
 
-	//one joystick (js), several axiss and buttons on that joystick
+	//one joystick (js), several axis and buttons on one joystick
 	
-	Joystick js = new Joystick(1);
+	Joystick js = new Joystick(XBOX_INPUT);
 	
 	Button buttonA = new JoystickButton(js, BUTTON_A);
 	Button buttonB = new JoystickButton(js, BUTTON_B);
@@ -139,13 +141,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	//buttons (winch)
+    	    	
+//    	boolean A_value = js.getRawButton(BUTTON_A);
     	
-//    	boolean Avalue = js.getRawButton(BUTTON_A);
-    	
-    	//MUST HAVE LIMIT SWITCH
-    	
-    	//TO TEST * if limit switch is true or false in on/off positions
     	
     	/*UP
     	if (js.getRawButton(BUTTON_X)){
@@ -191,13 +189,13 @@ public class Robot extends IterativeRobot {
 //    	setLeftPower(LEFT_POWER);
 //    	setRightPower(RIGHT_POWER);
     	
-    	//for reverse
+    	//for reverse_left
     	if (!js.getRawButton(BUTTON_LEFT)){
     		setLeftPower(js.getRawAxis(LEFT_TRIGGER));
     	} else {
     		setLeftPower(-1 * js.getRawAxis(LEFT_TRIGGER));
     	}
-    	// for reverse
+    	// for reverse_right
     	if (!js.getRawButton(BUTTON_RIGHT)){
     		setRightPower(js.getRawAxis(RIGHT_TRIGGER));
     	} else {
