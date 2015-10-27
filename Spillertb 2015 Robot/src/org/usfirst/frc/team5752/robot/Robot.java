@@ -1,7 +1,4 @@
-/*
- * SPILLERTB 2015 ROBOT
- * FIRST TEST COMMIT!
- */
+
 package org.usfirst.frc.team5752.robot;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -55,6 +52,7 @@ public class Robot extends IterativeRobot {
 	
 	boolean xPressed = false;
 	boolean yPressed = false;
+	boolean LEFT_PRESS = false;
 	
 	double LEFT_POWER;
 	double RIGHT_POWER;
@@ -105,7 +103,6 @@ public class Robot extends IterativeRobot {
 	    		leftMotor2.set(-1 * power * ACCEL_RATE); 
 	    		
 	    		lastLeftPower = power;
-		
 		}
 		
 //		double lastRightPower = 0.0;
@@ -124,7 +121,7 @@ public class Robot extends IterativeRobot {
 	    	lastRightPower = power;
 		}
 	
-
+		
 	public void robotInit() {
 		
     }
@@ -141,6 +138,24 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	
+    	if (js.getRawButton(BUTTON_LEFT) & LEFT_PRESS == false) {
+    		LEFT_PRESS = true;
+    		for(int i = 0; i < 100; i++) {
+//    			rightMotor1.set(.3);
+//    			rightMotor2.set(.3);
+    			
+//    			leftMotor1.set(-.3);
+//    			leftMotor2.set(-.3);
+    			
+    			setRightPower(.3);
+    			setLeftPower(-.3);
+    			
+    		}
+    	}else if(!js.getRawButton(BUTTON_LEFT) & LEFT_PRESS) {
+    		LEFT_PRESS = false;
+    	}
+    	
     	    	
 //    	boolean A_value = js.getRawButton(BUTTON_A);
     	
