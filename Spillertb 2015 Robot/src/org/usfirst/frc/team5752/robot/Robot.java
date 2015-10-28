@@ -76,6 +76,7 @@ public class Robot extends IterativeRobot {
 	Talon rightMotor1 = new Talon(MOTOR_RIGHT_1);
 	Talon rightMotor2 = new Talon(MOTOR_RIGHT_2);
 	
+	
 	TalonSRX winchMotor = new TalonSRX(WINCH_MOTOR); // TalonSRX = newer model of regular Talon, defined differently
 //	Talon winchMotor = new Talon(WINCH_MOTOR);
 	
@@ -115,8 +116,8 @@ public class Robot extends IterativeRobot {
 				}
 			}
 
-	    		rightMotor1.set(power * ACCEL_RATE);
-	    		rightMotor2.set(power * ACCEL_RATE);
+	    		rightMotor1.set(power * ACCEL_RATE * .896);
+	    		rightMotor2.set(power * ACCEL_RATE * .896);
 
 	    	lastRightPower = power;
 		}
@@ -139,23 +140,6 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	
-    	if (js.getRawButton(BUTTON_LEFT) & LEFT_PRESS == false) {
-    		LEFT_PRESS = true;
-    		for(int i = 0; i < 100; i++) {
-//    			rightMotor1.set(.3);
-//    			rightMotor2.set(.3);
-    			
-//    			leftMotor1.set(-.3);
-//    			leftMotor2.set(-.3);
-    			
-    			setRightPower(.3);
-    			setLeftPower(-.3);
-    			
-    		}
-    	}else if(!js.getRawButton(BUTTON_LEFT) & LEFT_PRESS) {
-    		LEFT_PRESS = false;
-    	}
-    	
     	    	
 //    	boolean A_value = js.getRawButton(BUTTON_A);
     	
@@ -174,53 +158,29 @@ public class Robot extends IterativeRobot {
     	}*/
     	//up
     	
-    	if (upLimitIn.getVoltage() < 3) {
+    	if (upLimitIn.getVoltage() < 3) { // if not pressed
+    		winchMotor.set(js.getRawAxis(L_YAXIS));
+    	} else if (js.getRawAxis(L_YAXIS) < 0){
     		winchMotor.set(js.getRawAxis(L_YAXIS));
     	}
+
     	
     	
-    	//buttons to change speed (ACCEL_RATE)
-    	if(js.getRawButton(BUTTON_X) & xPressed == false & ACCEL_RATE < 1){
-    		ACCEL_RATE += .1;
-    		xPressed = true;
-    	} else if(!js.getRawButton(BUTTON_X) & xPressed == true){
-    		xPressed = false;
-    	};
-    	if (js.getRawButton(BUTTON_Y) & yPressed == false & ACCEL_RATE < 1){
-    		ACCEL_RATE -= .1;
-    		yPressed = true;
-    	} else if(!js.getRawButton(BUTTON_Y) & yPressed == true){
-    		yPressed = false;
-    	};
     	
     	
-    	//tank driving
-    	
-    	//ENTER BOTH POSITIVE FOR FORAWRDS
-    	
-//    	LEFT_POWER = js.getRawAxis(1);
-//    	RIGHT_POWER = js.getRawAxis(5);
-    	
-//    	setLeftPower(LEFT_POWER);
-//    	setRightPower(RIGHT_POWER);
-    	
-    	//for reverse_left
-    	if (!js.getRawButton(BUTTON_LEFT)){
-    		setLeftPower(js.getRawAxis(LEFT_TRIGGER));
+    	if (js.getRawButton(BUTTON_RIGHT)) {
+    		setRightPower(js.getRawAxis(3));
     	} else {
-    		setLeftPower(-1 * js.getRawAxis(LEFT_TRIGGER));
+    		setRightPower(-1 * js.getRawAxis(3));
     	}
-    	// for reverse_right
-    	if (!js.getRawButton(BUTTON_RIGHT)){
-    		setRightPower(js.getRawAxis(RIGHT_TRIGGER));
+    	
+    	if (js.getRawButton(BUTTON_LEFT)) {
+    		setLeftPower(js.getRawAxis(2));
     	} else {
-    		setRightPower(-1 * js.getRawAxis(RIGHT_TRIGGER));
+    		setLeftPower(-1 * js.getRawAxis(2));
     	}
-    		
-//    	leftMotor1.set(-1 * LEFT_POWER);
-//    	leftMotor2.set(-1 * LEFT_POWER);    	
-//    	rightMotor1.set(RIGHT_POWER);
-//    	rightMotor2.set(RIGHT_POWER);
+    	
+
     }
     
     /**
