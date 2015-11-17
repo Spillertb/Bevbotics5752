@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
 	final double ACCEL_COEFFICIENT = 0.05;
 
 	final double WINCH_SPEED = 1;
-	
+
 	boolean RELEASED = false;
 
 	double lastLeftPower = 0.0;
@@ -128,15 +128,16 @@ public class Robot extends IterativeRobot {
 
 		lastRightPower = power;
 	}
+
 	public double winchStop() {
-		if (RELEASED){
-			//winchMotor.set(-.05);
+		if (RELEASED) {
+			// winchMotor.set(-.05);
 			RELEASED = false;
-			return -.05; 
+			return -.05;
 		} else {
-			//winchMotor.set(0);
+			// winchMotor.set(0);
 			return 0;
-			
+
 		}
 	}
 
@@ -164,43 +165,35 @@ public class Robot extends IterativeRobot {
 		 */
 		// up
 
-		
 		/*
-		if (upLimitIn.getVoltage() < 3) { // if limit switch is NOT pressed
-			winchMotor.set(js.getRawAxis(L_YAXIS));
-		} else if (upLimitIn.getVoltage() > 3 && js.getRawAxis(L_YAXIS) < 0) {
-			winchMotor.set(js.getRawAxis(L_YAXIS));
-		} else {
-			winchMotor.set(0);
-		}
-		*/
-		
-		
+		 * if (upLimitIn.getVoltage() < 3) { // if limit switch is NOT pressed
+		 * winchMotor.set(js.getRawAxis(L_YAXIS)); } else if
+		 * (upLimitIn.getVoltage() > 3 && js.getRawAxis(L_YAXIS) < 0) {
+		 * winchMotor.set(js.getRawAxis(L_YAXIS)); } else { winchMotor.set(0); }
+		 */
+
 		// boolean x_release
 		// boolean y_release
-		
-		//B = down
-		//X = up
-		
+
+		// B = down
+		// X = up
+
 		if (upLimitIn.getVoltage() < 3 && js.getRawButton(BUTTON_X)) {
 			winchMotor.set(1);
-		} else if(js.getRawButton(BUTTON_B)) { // limit switch does not matter when going down
+		} else if (js.getRawButton(BUTTON_B)) { // limit switch does not matter
+												// when going down
 			winchMotor.set(-1);
 			RELEASED = false;
 		} else if (upLimitIn.getVoltage() > 3 && !RELEASED) {
-			//RELEASED = true;
-			//winchMotor.set(winchStop());
+			// RELEASED = true;
+			// winchMotor.set(winchStop());
 			winchMotor.set(-.05);
 			RELEASED = true;
 		} else {
-			//winchMotor.set(0);
+			// winchMotor.set(0);
 			winchMotor.set(winchStop());
 		}
-		
-		
-		
-		
-		
+
 		if (js.getRawButton(BUTTON_RIGHT)) {
 			setRightPower(js.getRawAxis(3));
 		} else {
