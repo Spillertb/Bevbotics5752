@@ -138,7 +138,6 @@ public class Robot extends IterativeRobot {
 			return 0;
 			
 		}
-		//you've been trolled by the troll master!
 	}
 
 	public void robotInit() {
